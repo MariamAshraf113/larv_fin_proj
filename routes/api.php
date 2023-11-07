@@ -74,6 +74,7 @@ Route::get('/jobs/{id}', [JobController::class, 'show']);
 Route::post('/jobs', [JobController::class, 'store']);
 Route::put('/jobs/{id}', [JobController::class, 'update']);
 Route::delete('/jobs/{id}', [JobController::class, 'destroy']);
+Route::get('/jobs/search', [JobController::class, 'search'])->name("jobs.search");
 
 
 Route::apiResource('proposals', ProposalController::class);

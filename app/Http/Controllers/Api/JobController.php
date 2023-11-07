@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\JobResource;
-
+use function Laravel\Prompts\search;
 
 
 class JobController extends Controller
@@ -26,13 +26,27 @@ class JobController extends Controller
         return new JobResource($job);
 
     }
+    public function search(Request $request) {
+        $search = $request->search;
+
+        $jobs = Job::where(function ($query) use ($search) {
+            $query->where('name', 'like', "%$search%")
+                ->orWhere('description', 'like', "%$search%");
+        })->orWhereHas('skill', function ($query) use ($search) {
+            $query->where('name', 'like', "%$search%");
+        })->get();
+
+        return $jobs;
+    }
+
+
 
     public function store(Request $request) {
 
         $validator = Validator::make($request->all() ,[
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'status' => 'required|string', 
+            'status' => 'required|string',
             'user_id' => 'required|integer',
             'location_id' => 'required|integer',
         ],[
@@ -73,7 +87,7 @@ class JobController extends Controller
 
         $job = Job::findOrFail($id);
         $job->update($request->all());
-        
+
         return new JobResource($job);
 
 
