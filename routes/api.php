@@ -4,6 +4,8 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FreelancerController;
 use App\Http\Controllers\Api\JobController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Api\ProposalController;
+use App\Http\Controllers\Api\SkillController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -49,7 +51,17 @@ Route::group([
 //Route::post("/job", [JobController::class, "store"]);
 
 
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/{id}', [UserController::class, 'show']);
+Route::post('/users', [UserController::class, 'store']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
+Route::get('/skills', [SkillController::class, 'index']);
+Route::get('/skills/{id}', [SkillController::class, 'show']);
+Route::post('/skills', [SkillController::class, 'store']);
+Route::put('/skills/{id}', [SkillController::class, 'update']);
+Route::delete('/skills/{id}', [SkillController::class, 'destroy']);
 
 Route::get('/locations', [LocationController::class, 'index']);
 Route::get('/locations/{id}', [LocationController::class, 'show']);
@@ -57,15 +69,11 @@ Route::post('/locations', [LocationController::class, 'store']);
 Route::put('/locations/{id}', [LocationController::class, 'update']);
 Route::delete('/locations/{id}', [LocationController::class, 'destroy']);
 
-
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/jobs/{id}', [JobController::class, 'show']);
 Route::post('/jobs', [JobController::class, 'store']);
 Route::put('/jobs/{id}', [JobController::class, 'update']);
 Route::delete('/jobs/{id}', [JobController::class, 'destroy']);
 
-Route::get('/users', [UserController::class, 'index']);
-Route::get('/users/{id}', [UserController::class, 'show']);
-Route::post('/users', [UserController::class, 'store']);
-Route::put('/users/{id}', [UserController::class, 'update']);
-Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+Route::apiResource('proposals', ProposalController::class);
